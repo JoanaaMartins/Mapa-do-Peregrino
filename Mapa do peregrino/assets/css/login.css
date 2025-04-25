@@ -1,0 +1,148 @@
+body {
+    font-family: 'Montserrat'; 
+}
+
+.login-section {
+    background-color: #38534C;
+    color: white;
+}
+
+.left-column {
+    padding: 0 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.logo-container { 
+    display: flex;
+    align-items: center;
+    margin-bottom: 2%;
+}
+
+.logo-link {
+    text-decoration: none;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+
+.logo-img {
+    height: 50px;
+    margin-right: 10px;
+}
+
+.form-container {
+    margin-top: 3rem;
+}
+
+.login-form {
+    width: 100%;
+    max-width: 23rem;
+}
+
+.form-title {
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 2rem; 
+    color: white;
+}
+
+.form-group label {
+    text-transform: uppercase;
+    margin-bottom: 0.5rem; 
+    color: white;
+}
+
+.form-control { 
+    border-radius: 20px;
+    background-color: #D9D9D9;
+    opacity: 0.5;
+}
+
+.btn-login { 
+    margin-top: 5%;
+    background-color: #8FAAB5;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    width: 100%;
+    padding: 0.75rem; 
+    text-transform: uppercase;
+}
+
+.register-text {
+    margin-top: 1rem; 
+    font-size: 14px ; 
+    text-transform: uppercase;
+    color: white;
+}
+
+.register-link {
+color: #8FAAB5;
+text-decoration: none;
+}
+
+.login-image {
+width: 100%;
+height: 100vh;
+object-fit: cover;
+object-position: left;
+}
+
+*{ 
+    font-family: 'Montserrat';
+}
+
+.body{ 
+    background-color: #323D41; 
+    margin: 5%;
+} 
+
+
+
+
+.navbar-toggler{  
+    margin: 5%;
+    background-color: white; 
+} 
+
+.homeImg{ 
+    width: 100%; 
+    margin-top: -8%;
+} 
+
+.titlecontainer{   
+    width: 100%;
+    z-index: 1; 
+    position: absolute; 
+    top: 50%; 
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center; 
+    color: white;  
+    font-family: 'Montserrat' ; 
+    text-transform: uppercase; 
+    
+}
+
+.title1{ 
+   font-size: 115px;
+} 
+.title2{ 
+    font-size: 90px;
+} 
+
+.btn1{  
+    border-radius: 20px; 
+    border: none; 
+    background-color: #D9D9D9; 
+    opacity: 0.5;
+    font-family: 'Montserrat'; 
+    font-size: 20px; 
+    padding: 10px 20px;
+    text-transform: uppercase; 
+    color: #323D41;
+}
