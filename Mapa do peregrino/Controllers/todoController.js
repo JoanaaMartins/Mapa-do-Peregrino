@@ -1,1 +1,0 @@
-// manipulação da to-do list

@@ -1,1 +1,0 @@
-//ações de gestão para o administrador

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+                <div class="position-sticky pt-3">
+                    <div class="d-flex justify-content-center mb-4"> 
+                        <span class="navbar-brand mb-0">Admin Panel</span>
+                    </div>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#dashboard" data-bs-toggle="tab">
+                                <i class="bi bi-speedometer2"></i>Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#users" data-bs-toggle="tab">
+                                <i class="bi bi-people"></i>User Management
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#posts" data-bs-toggle="tab">
+                                <i class="bi bi-file-post"></i>Posts
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#todo" data-bs-toggle="tab">
+                                <i class="bi bi-list-check"></i>To-Do List
+                            </a>
+                        </li>
+                        <li class="nav-item mt-5">
+                            <a class="nav-link text-white" href="#">
+                                <i class="bi bi-box-arrow-right"></i>Logout
+                            </a>
+                        </li> 
+                        <li class="nav-item mt-5">
+                            <a class="nav-link text-white" href="index.html">
+                                <i class="bi bi-house-door-fill"></i>Homepage
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+                <div class="tab-content">
+                    <!-- Dashboard Tab -->
+                    <div class="tab-pane fade show active" id="dashboard">
+                        <h2 class="h3 mb-4" style="color: var(--dark-green);">Admin Dashboard</h2>
+                        <div class="row">
+                            <div class="col-md-4 mb-4">
+                                <div class="card bg-primary text-white">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Total Users</h5>
+                                        <h3 class="card-text" id="totalUsers">0</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-4">
+                                <div class="card bg-primary text-white">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Total Posts</h5>
+                                        <h3 class="card-text" id="totalPosts">0</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-4">
+                                <div class="card bg-primary text-white">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Pending Tasks</h5>
+                                        <h3 class="card-text" id="pendingTasks">0</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- User Management Tab -->
+                    <div class="tab-pane fade" id="users">
+                        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                            <h2 class="h3" style="color: var(--dark-green);">User Management</h2>
+                        </div>
+                        
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Username</th>
+                                        <th>Email</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="usersTableBody">
+                                    <!-- Users will be loaded here dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Posts Management Tab -->
+                    <div class="tab-pane fade" id="posts">
+                        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                            <h2 class="h3" style="color: var(--dark-green);">Posts Management</h2>
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createPostModal">
+                                <i class="bi bi-plus-circle"></i> Create New Post
+                            </button>
+                        </div>
+                        
+                        <!-- Posts Grid -->
+                        <div class="row" id="postsGrid">
+                            <!-- Posts will be loaded here dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- To-Do List Tab -->
+                    <div class="tab-pane fade" id="todo">
+                        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                            <h2 class="h3" style="color: var(--dark-green);">To-Do List</h2>
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addTaskModal">
+                                <i class="bi bi-plus-circle"></i> Add Task
+                            </button>
+                        </div>
+                        
+                        <div class="row" id="tasksContainer">
+                            <!-- Tasks will be loaded here dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Create Post Modal -->
+    <div class="modal fade" id="createPostModal" tabindex="-1" aria-labelledby="createPostModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Create New Post</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="postForm">
+                        <div class="mb-3">
+                            <label for="postTitle" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="postTitle" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="postImage" class="form-label">Image URL</label>
+                            <input type="text" class="form-control" id="postImage" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="postDuration" class="form-label">Duration</label>
+                            <input type="text" class="form-control" id="postDuration" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="postDistance" class="form-label">Distance</label>
+                            <input type="text" class="form-control" id="postDistance" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="postContent" class="form-label">Content</label>
+                            <textarea class="form-control" id="postContent" rows="5" required></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="savePostBtn">Save Post</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Task Modal -->
+    <div class="modal fade" id="addTaskModal" tabindex="-1" aria-labelledby="addTaskModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Task</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="taskForm">
+                        <div class="mb-3">
+                            <label for="taskName" class="form-label">Task Name</label>
+                            <input type="text" class="form-control" id="taskName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="taskIcon" class="form-label">Icon</label>
+                            <select class="form-select" id="taskIcon" required>
+                                <option value="bi-bag-check">Bag</option>
+                                <option value="bi-calendar-check">Calendar</option>
+                                <option value="bi-cart-check">Cart</option>
+                                <option value="bi-check-circle">Check Circle</option>
+                                <option value="bi-gear">Gear</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="saveTaskBtn">Add Task</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Post Modal -->
+    <div class="modal fade" id="editPostModal" tabindex="-1" aria-labelledby="editPostModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Post</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editPostForm">
+                        <input type="hidden" id="editPostId">
+                        <div class="mb-3">
+                            <label for="editPostTitle" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="editPostTitle" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editPostImage" class="form-label">Image URL</label>
+                            <input type="text" class="form-control" id="editPostImage" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editPostDuration" class="form-label">Duration</label>
+                            <input type="text" class="form-control" id="editPostDuration" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editPostDistance" class="form-label">Distance</label>
+                            <input type="text" class="form-control" id="editPostDistance" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editPostContent" class="form-label">Content</label>
+                            <textarea class="form-control" id="editPostContent" rows="5" required></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="updatePostBtn">Update Post</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script type="module" src="/js/mainJs/dom.js"></script>
+</body>
+</html>
