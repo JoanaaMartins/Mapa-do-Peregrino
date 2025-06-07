@@ -2,29 +2,12 @@
 <html lang="zxx">
 
 <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Mapa do Peregrino</title>
     <link rel="icon" href="img/favicon.png">
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="../styles/css/bootstrap.min.css"> 
+    <link rel="stylesheet" href="../styles/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-
-    <!-- animate CSS -->
-    <link rel="stylesheet" href="../styles/css/animate.css">
-    <!-- owl carousel CSS -->
-    <link rel="stylesheet" href="../styles/css/owl.carousel.min.css">
-    <!-- font awesome CSS -->
-    <link rel="stylesheet" href="../styles/css/all.css">
-    <!-- flaticon CSS -->
-    <link rel="stylesheet" href="../styles/css/flaticon.css">
-    <link rel="stylesheet" href="../styles/css/themify-icons.css">
-    <!-- font awesome CSS -->
-    <link rel="stylesheet" href="../styles/css/magnific-popup.css">
-    <!-- swiper CSS -->
-    <link rel="stylesheet" href="../styles/css/slick.css">
-    <!-- style CSS -->
     <link rel="stylesheet" href="../styles/css/style.css">
 </head>
 
@@ -94,33 +77,37 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-4">
-                    <div class="product_sidebar" style="color: white;">
-                        <div class="single_sedebar">
-                            <div class="select_option">
-                                <div class="select_option_list">Path <i class="right fas fa-caret-down"></i> </div>
-                                <div class="select_option_dropdown" style="color: white;">
-                                    <p><a href="#" class="filter-path" data-path="all">All Paths</a></p>
-                                    <p><a href="#" class="filter-path" data-path="francés">Path Francés</a></p>
-                                    <p><a href="#" class="filter-path" data-path="portugués">Path Portugués</a></p>
-                                    <p><a href="#" class="filter-path" data-path="norte">Path del Norte</a></p>
-                                    <p><a href="#" class="filter-path" data-path="primitivo">Path Primitivo</a></p>
-                                    <p><a href="#" class="filter-path" data-path="portugués-costa">Path Portugués da Costa</a></p>
-                                </div>
+                    <div class="product_sidebar text-white">
+                        <div class="single_sedebar mb-3">
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle w-100 text-start" type="button" id="pathDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: #6B8981;">
+                                    Path 
+                                </button>
+                                <ul class="dropdown-menu w-100" aria-labelledby="pathDropdown">
+                                    <li><a class="dropdown-item filter-path" href="#" data-path="all">All Paths</a></li>
+                                    <li><a class="dropdown-item filter-path" href="#" data-path="francés">Path Francés</a></li>
+                                    <li><a class="dropdown-item filter-path" href="#" data-path="portugués">Path Portugués</a></li>
+                                    <li><a class="dropdown-item filter-path" href="#" data-path="norte">Path del Norte</a></li>
+                                    <li><a class="dropdown-item filter-path" href="#" data-path="primitivo">Path Primitivo</a></li>
+                                    <li><a class="dropdown-item filter-path" href="#" data-path="portugués-costa">Path Portugués da Costa</a></li>
+                                </ul>
                             </div>
                         </div>
                         
                         <div class="single_sedebar">
-                            <div class="select_option">
-                                <div class="select_option_list">Duration <i class="right fas fa-caret-down"></i> </div>
-                                <div class="select_option_dropdown" style="color: white;">
-                                    <p><a href="#" class="filter-duration" data-duration="all">All Durations</a></p>
-                                    <p><a href="#" class="filter-duration" data-duration="short">3-5 days</a></p>
-                                    <p><a href="#" class="filter-duration" data-duration="medium">6-10 days</a></p>
-                                    <p><a href="#" class="filter-duration" data-duration="long">11-15 days</a></p>
-                                    <p><a href="#" class="filter-duration" data-duration="extended">+15 days</a></p>
-                                </div>
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle w-100 text-start" type="button" id="durationDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: #6B8981;">
+                                    Duration 
+                                </button>
+                                <ul class="dropdown-menu w-100" aria-labelledby="durationDropdown">
+                                    <li><a class="dropdown-item filter-duration" href="#" data-duration="all">All Durations</a></li>
+                                    <li><a class="dropdown-item filter-duration" href="#" data-duration="short">3-5 days</a></li>
+                                    <li><a class="dropdown-item filter-duration" href="#" data-duration="medium">6-10 days</a></li>
+                                    <li><a class="dropdown-item filter-duration" href="#" data-duration="long">11-15 days</a></li>
+                                    <li><a class="dropdown-item filter-duration" href="#" data-duration="extended">+15 days</a></li>
+                                </ul>
                             </div>
-                        </div>                        
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-8">
@@ -156,82 +143,60 @@
     </section>
     <!-- subscribe part end -->
 
-    <!--::footer_part start::-->
     <footer class="footer_part">
         <div class="footer_iner">
-            <div class="container">
-                <div class="row justify-content-between align-items-center">
-                    <div class="col-lg-8">
-                        <div class="footer_menu">
-                            <div class="footer_logo">
-                                <a href="index.html"><img src="../img/logo.png" alt="#"></a>
-                            </div>
-                            <div class="footer_menu_item">
-                                <a href="index.html">Home</a>
-                                <a href="about.html">About</a>
-                                <a href="product_list.html">Plan</a>
-                                <a href="to">To Do </a>
-                                <a href="contact.html">Contact</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="social_icon">
-                            <a href="#"><i class="fab fa-facebook-f"></i></a>
-                            <a href="#"><i class="fab fa-instagram"></i></a>
-                            <a href="#"><i class="fab fa-google-plus-g"></i></a>
-                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                        </div>
-                    </div>
+          <div class="container">
+            <div class="row justify-content-between align-items-center">
+              <div class="col-lg-8">
+                <div class="footer_menu">
+                  <div class="footer_logo">
+                    <a href="index.html"><img src="../img/logo.png" alt="#"></a>
+                  </div>
+                  <div class="footer_menu_item">
+                    <a href="index.html">Home</a>
+                    <a href="about.html">About</a>
+                    <a href="product_list.html">Plan</a>
+                    <a href="todo.html">To Do</a>
+                    <a href="contact.html">Contact</a>
+                  </div>
                 </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="social_icon">
+                  <a href="#"><i class="bi bi-facebook"></i></a>
+                  <a href="#"><i class="bi bi-instagram"></i></a>
+                  <a href="#"><i class="bi bi-google"></i></a>
+                  <a href="#"><i class="bi bi-linkedin"></i></a>
+                </div>
+              </div>
             </div>
+          </div>
         </div>
-        
+    
         <div class="copyright_part">
-            <div class="container">
-                <div class="row ">
-                    <div class="col-lg-12">
-                        <div class="copyright_text">
-                            <P><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="ti-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></P>
-                            <div class="copyright_link">
-                                <a href="#">Turms & Conditions</a>
-                                <a href="#">FAQ</a>
-                            </div>
-                        </div>
-                    </div>
+          <div class="container">
+            <div class="row ">
+              <div class="col-lg-12">
+                <div class="copyright_text">
+                  <p>
+                    Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                  </p>
+                  <div class="copyright_link">
+                    <a href="#">Terms & Conditions</a>
+                    <a href="#">FAQ</a>
+                  </div>
                 </div>
+              </div>
             </div>
+          </div>
         </div>
-    </footer>
-    <!--::footer_part end::-->
-    <!-- jquery plugins here-->
-    <script src="js/jsOrigin/jquery-1.12.1.min.js"></script>
-    <!-- popper js -->
-    <script src="js/jsOrigin/popper.min.js"></script>
-    <!-- bootstrap js -->
-    <script src="js/jsOrigin/bootstrap.min.js"></script>
-    <!-- easing js -->
-    <script src="js/jsOrigin/jquery.magnific-popup.js"></script>
-    <!-- swiper js -->
-    <script src="js/jsOrigin/swiper.min.js"></script>
-    <!-- swiper js -->
-    <script src="js/jsOrigin/mixitup.min.js"></script>
-    <!-- particles js -->
-    <script src="js/jsOrigin/owl.carousel.min.js"></script>
-    <script src="js/jsOrigin/jquery.nice-select.min.js"></script>
-    <!-- slick js -->
-    <script src="../js/jsOrigin/slick.min.js"></script>
-    <script src="../js/jsOrigin/jquery.counterup.min.js"></script>
-    <script src="../js/jsOrigin/waypoints.min.js"></script>
-    <script src="../js/jsOrigin/contact.js"></script>
-    <script src="../js/jsOrigin/jquery.ajaxchimp.min.js"></script>
-    <script src="../js/jsOrigin/jquery.form.js"></script>
-    <script src="../js/jsOrigin/jquery.validate.min.js"></script>
-    <script src="../js/jsOrigin/mail-script.js"></script>
-    <!-- custom js -->
-    <script src="../js/jsOrigin/custom.js"></script> 
+      </footer>
+    
+      <!-- Scripts essenciais apenas -->
+      <script src="../js/jsOrigin/jquery-1.12.1.min.js"></script>
+      <script src="../js/jsOrigin/popper.min.js"></script>
+      <script src="../js/jsOrigin/bootstrap.min.js"></script>
+      
     <script type="module" src="../controllers /feed.js"></script>
     <script type="module" src="../controllers /main.js"></script>  
     <script src="../controllers /auth.js"></script> 

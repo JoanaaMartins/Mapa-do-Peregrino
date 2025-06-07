@@ -1,18 +1,15 @@
-import { posts } from './data.js';
+import { posts } from '../Models/data.js';
 
-// Filter state
 let currentFilters = {
     path: 'all',
     duration: 'all'
 };
 
-// Initialize the feed
 export function initUserFeed() {
     loadUserFeed();
     setupEventListeners();
 }
 
-// Load posts into user feed
 function loadUserFeed() {
     const feedContainer = document.getElementById('userFeed');
     feedContainer.innerHTML = '';
@@ -52,13 +49,11 @@ function loadUserFeed() {
     });
 }
 
-// Filter posts based on current filters
 function filterPosts() {
     return posts.filter(post => {
         // Filter by path
         const pathMatch = currentFilters.path === 'all' || 
-                         post.title.toLowerCase().includes(currentFilters.path) || 
-                         post.content.toLowerCase().includes(currentFilters.path);
+                         post.path === currentFilters.path;
         
         // Filter by duration
         let durationMatch = false;
@@ -79,15 +74,18 @@ function filterPosts() {
     });
 }
 
-// Set up event listeners for filters
 function setupEventListeners() {
     // Path filters
     document.querySelectorAll('.filter-path').forEach(filter => {
         filter.addEventListener('click', function(e) {
             e.preventDefault();
             currentFilters.path = this.getAttribute('data-path');
-            document.querySelector('.select_option_list:first-child').textContent = 
-                this.textContent + ' <i class="right fas fa-caret-down"></i>';
+            
+            // Update dropdown button text
+            const pathDropdownBtn = document.querySelector('#pathDropdown');
+            const selectedText = this.textContent;
+            pathDropdownBtn.innerHTML = `${selectedText} `;
+            
             loadUserFeed();
         });
     });
@@ -97,14 +95,17 @@ function setupEventListeners() {
         filter.addEventListener('click', function(e) {
             e.preventDefault();
             currentFilters.duration = this.getAttribute('data-duration');
-            document.querySelectorAll('.select_option_list')[1].textContent = 
-                this.textContent + ' <i class="right fas fa-caret-down"></i>';
+            
+            // Update dropdown button text
+            const durationDropdownBtn = document.querySelector('#durationDropdown');
+            const selectedText = this.textContent;
+            durationDropdownBtn.innerHTML = `${selectedText} `;
+            
             loadUserFeed();
         });
     });
 }
 
-// like on a post
 function toggleLike(postId) {
     const post = posts.find(p => p.id === postId);
     if (post) {
@@ -122,6 +123,5 @@ function toggleLike(postId) {
         }
     }
 }
-
 
 document.addEventListener('DOMContentLoaded', initUserFeed);

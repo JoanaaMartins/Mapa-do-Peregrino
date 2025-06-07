@@ -1,9 +1,10 @@
+
+//////////////////////// todo user ////////////////////
 document.addEventListener("DOMContentLoaded", function() {
     loadTasks();
 });
 
 function loadTasks() {
-    // Load tasks from localStorage
     const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
     const container = document.getElementById('tasksContainer');
     container.innerHTML = '';
@@ -24,8 +25,6 @@ function loadTasks() {
         `;
         container.appendChild(col);
     });
-
-    // Add event listeners to checkboxes
     document.querySelectorAll('.task-checkbox').forEach(checkbox => {
         checkbox.addEventListener('change', function() {
             const taskId = parseInt(this.id.replace('task', ''));

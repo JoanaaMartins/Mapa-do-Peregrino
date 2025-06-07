@@ -1,9 +1,8 @@
-import { users } from './data.js';
+import { users } from '../Models/data.js';
 import { updateDashboardStats } from './dashboard.js';
 
-// users.js
+// users.js - admin 
 
-// Function to get users from localStorage
 export function getUsers() {
     return JSON.parse(localStorage.getItem('users')) || [];
 }

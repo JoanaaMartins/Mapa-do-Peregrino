@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if (existingUsers.some(user => user.email === email)) {
         alert('Email already registered');
         return;
-      }
+      } 
       
       // Create new user
       const newUser = {
@@ -48,7 +48,21 @@ document.addEventListener('DOMContentLoaded', function() {
       localStorage.setItem('users', JSON.stringify(existingUsers));
       
       // Redirect to login page
-      alert('Registration successful! Please login.');
-      window.location.href = '/login.html';
+      alert('Registration successful! Please login.'); 
+      console.log('User registered successfully:', newUser.username);
+      window.location.href = 'views /login.html'; 
     });
-});
+}); 
+function isAdminInvite(email) {
+  // Check if this is a special admin invitation
+  return email.endsWith('@admin-invite.example'); // Example pattern
+}
+
+// Then modify the user creation part:
+const newUser = {
+  id: Date.now(),
+  username,
+  email,
+  password,
+  isAdmin: isAdminInvite(email) // Only true for special invites
+};

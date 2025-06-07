@@ -1,4 +1,4 @@
-import { posts as initialPosts } from './data.js';
+import { posts as initialPosts } from '../Models/data.js';
 import { updateDashboardStats } from './dashboard.js';
 
 // Initialize posts from localStorage or fall back to initialPosts
@@ -7,6 +7,57 @@ let posts = JSON.parse(localStorage.getItem('posts')) || initialPosts;
 // Save posts to localStorage
 function savePostsToStorage() {
     localStorage.setItem('posts', JSON.stringify(posts));
+}
+
+// Function to handle itinerary day management
+function setupItineraryHandlers() {
+    // Add day button
+    document.getElementById('addDayBtn')?.addEventListener('click', function() {
+        const itineraryContainer = document.getElementById('itineraryContainer');
+        const dayCount = document.querySelectorAll('.itinerary-day').length;
+        const newDay = document.createElement('div');
+        newDay.className = 'itinerary-day mb-3 p-3 border rounded';
+        newDay.innerHTML = `
+            <div class="row">
+                <div class="col-md-2">
+                    <label>Day</label>
+                    <input type="number" class="form-control day-number" min="1" value="${dayCount + 1}">
+                </div>
+                <div class="col-md-4">
+                    <label>From</label>
+                    <input type="text" class="form-control from-location" placeholder="Starting point">
+                </div>
+                <div class="col-md-4">
+                    <label>To</label>
+                    <input type="text" class="form-control to-location" placeholder="Destination">
+                </div>
+                <div class="col-md-2">
+                    <label>Distance (km)</label>
+                    <input type="number" class="form-control distance" step="0.1" placeholder="km">
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-md-12">
+                    <label>Suggested Albergue</label>
+                    <input type="text" class="form-control albergue" placeholder="Recommended accommodation">
+                </div>
+            </div>
+            <button type="button" class="btn btn-sm btn-danger mt-2 remove-day">Remove</button>
+        `;
+        itineraryContainer.appendChild(newDay);
+        
+        // Add event listener to the new remove button
+        newDay.querySelector('.remove-day').addEventListener('click', function() {
+            newDay.remove();
+        });
+    });
+
+    // Remove day buttons (for existing days when modal opens)
+    document.querySelectorAll('.remove-day').forEach(button => {
+        button.addEventListener('click', function() {
+            this.closest('.itinerary-day').remove();
+        });
+    });
 }
 
 export function loadPosts() {
@@ -55,11 +106,34 @@ export function loadPosts() {
 }
 
 export function savePost() {
+    // Basic info
     const title = document.getElementById('postTitle').value;
+    const slug = document.getElementById('postSlug').value;
+    
+    // Images
     const image = document.getElementById('postImage').value;
+    const image2 = document.getElementById('postImage2').value;
+    
+    // Stats
     const duration = document.getElementById('postDuration').value;
     const distance = document.getElementById('postDistance').value;
+    const difficulty = document.getElementById('postDifficulty').value;
+    
+    // Description
     const content = document.getElementById('postContent').value;
+    
+    // Itinerary
+    const itineraryDays = [];
+    document.querySelectorAll('.itinerary-day').forEach(dayElement => {
+        const day = {
+            day: dayElement.querySelector('.day-number').value,
+            from: dayElement.querySelector('.from-location').value,
+            to: dayElement.querySelector('.to-location').value,
+            distance: dayElement.querySelector('.distance').value,
+            albergue: dayElement.querySelector('.albergue').value
+        };
+        itineraryDays.push(day);
+    });
     
     // Get current posts
     const currentPosts = JSON.parse(localStorage.getItem('posts')) || posts;
@@ -67,10 +141,14 @@ export function savePost() {
     const newPost = {
         id: currentPosts.length > 0 ? Math.max(...currentPosts.map(p => p.id)) + 1 : 1,
         title,
+        slug,
         image,
+        image2: image2 || null,
         duration,
         distance,
-        content
+        difficulty,
+        content,
+        itinerary: itineraryDays
     };
     
     currentPosts.push(newPost);
@@ -84,14 +162,52 @@ export function savePost() {
     const modal = bootstrap.Modal.getInstance(document.getElementById('createPostModal'));
     modal.hide();
     document.getElementById('postForm').reset();
+    
+    // Reset itinerary container to just one day
+    const itineraryContainer = document.getElementById('itineraryContainer');
+    itineraryContainer.innerHTML = `
+        <div class="itinerary-day mb-3 p-3 border rounded">
+            <div class="row">
+                <div class="col-md-2">
+                    <label>Day</label>
+                    <input type="number" class="form-control day-number" min="1" value="1">
+                </div>
+                <div class="col-md-4">
+                    <label>From</label>
+                    <input type="text" class="form-control from-location" placeholder="Starting point">
+                </div>
+                <div class="col-md-4">
+                    <label>To</label>
+                    <input type="text" class="form-control to-location" placeholder="Destination">
+                </div>
+                <div class="col-md-2">
+                    <label>Distance (km)</label>
+                    <input type="number" class="form-control distance" step="0.1" placeholder="km">
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-md-12">
+                    <label>Suggested Albergue</label>
+                    <input type="text" class="form-control albergue" placeholder="Recommended accommodation">
+                </div>
+            </div>
+            <button type="button" class="btn btn-sm btn-danger mt-2 remove-day">Remove</button>
+        </div>
+    `;
+    
+    // Re-setup handlers for the new default day
+    setupItineraryHandlers();
 }
 
 export function updatePost() {
     const postId = parseInt(document.getElementById('editPostId').value);
     const title = document.getElementById('editPostTitle').value;
+    const slug = document.getElementById('editPostSlug')?.value || '';
     const image = document.getElementById('editPostImage').value;
+    const image2 = document.getElementById('editPostImage2')?.value || '';
     const duration = document.getElementById('editPostDuration').value;
     const distance = document.getElementById('editPostDistance').value;
+    const difficulty = document.getElementById('editPostDifficulty')?.value || 'Moderate';
     const content = document.getElementById('editPostContent').value;
     
     // Get current posts
@@ -100,11 +216,15 @@ export function updatePost() {
     const postIndex = currentPosts.findIndex(p => p.id === postId);
     if (postIndex !== -1) {
         currentPosts[postIndex] = {
+            ...currentPosts[postIndex], // Keep existing properties
             id: postId,
             title,
+            slug,
             image,
+            image2,
             duration,
             distance,
+            difficulty,
             content
         };
         
@@ -126,9 +246,18 @@ export function editPost(postId) {
     if (post) {
         document.getElementById('editPostId').value = post.id;
         document.getElementById('editPostTitle').value = post.title;
+        if (document.getElementById('editPostSlug')) {
+            document.getElementById('editPostSlug').value = post.slug || '';
+        }
         document.getElementById('editPostImage').value = post.image;
+        if (document.getElementById('editPostImage2')) {
+            document.getElementById('editPostImage2').value = post.image2 || '';
+        }
         document.getElementById('editPostDuration').value = post.duration;
         document.getElementById('editPostDistance').value = post.distance;
+        if (document.getElementById('editPostDifficulty')) {
+            document.getElementById('editPostDifficulty').value = post.difficulty || 'Moderate';
+        }
         document.getElementById('editPostContent').value = post.content;
         
         const modal = new bootstrap.Modal(document.getElementById('editPostModal'));
@@ -156,6 +285,15 @@ export function initializePosts() {
         localStorage.setItem('posts', JSON.stringify(initialPosts));
     }
     loadPosts();
+    
+    // Setup itinerary handlers when modal is shown
+    const createPostModal = document.getElementById('createPostModal');
+    if (createPostModal) {
+        createPostModal.addEventListener('shown.bs.modal', setupItineraryHandlers);
+    }
+    
+    // Also set up handlers immediately in case modal is already open
+    setupItineraryHandlers();
 }
 
 // Call initializePosts when the module is loaded

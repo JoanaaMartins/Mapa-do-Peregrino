@@ -1,4 +1,4 @@
- // Sample data - in a real app, this would come from your backend
+// codigo inicial dps apagar
  let users = [
     { id: 1, username: 'admin', email: 'admin@example.com', role: 'Admin', joined: '2023-01-15' },
     { id: 2, username: 'user1', email: 'user1@example.com', role: 'User', joined: '2023-02-20' },
@@ -22,25 +22,20 @@ let tasks = [
     { id: 3, name: "Plan Route", icon: "bi-gear", completed: true }
 ];
 
-// DOM Ready
+
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize the dashboard
+
     loadUsers();
     loadPosts();
     loadTasks();
     updateDashboardStats();
 
-    // Event listeners
     document.getElementById('savePostBtn').addEventListener('click', savePost);
     document.getElementById('saveTaskBtn').addEventListener('click', saveTask);
     document.getElementById('updatePostBtn').addEventListener('click', updatePost);
 });
 
-function updateDashboardStats() {
-    document.getElementById('totalUsers').textContent = users.length;
-    document.getElementById('totalPosts').textContent = posts.length;
-    document.getElementById('pendingTasks').textContent = tasks.filter(task => !task.completed).length;
-}
+
 
 function loadUsers() {
     const tbody = document.getElementById('usersTableBody');

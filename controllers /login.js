@@ -1,62 +1,91 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const loginForm = document.querySelector('.login_part_form .contact_form');
-    
-    loginForm.addEventListener('submit', function(e) {
+  const loginForm = document.querySelector('.login_part_form .contact_form');
+  
+  loginForm.addEventListener('submit', function(e) {
       e.preventDefault();
       
-      // Get form values
       const username = document.getElementById('name').value.trim();
       const password = document.getElementById('password').value;
       const rememberMe = document.getElementById('f-option').checked;
       
-      // Validate form
+      // Validation
       if (!username || !password) {
-        alert('Please fill in all fields');
-        return;
+          showToast('Please fill in all fields', 'error');
+          return;
       }
       
-      // Get users from localStorage
       const users = JSON.parse(localStorage.getItem('users')) || [];
-      
-      // Find user by username
       const user = users.find(u => u.username === username);
       
+      // Authentication checks
       if (!user) {
-        alert('Username not found');
-        return;
+          showToast('Username not found', 'error');
+          return;
       }
       
-      // Check password (Note: In real apps, compare hashed passwords)
       if (user.password !== password) {
-        alert('Incorrect password');
-        return;
+          showToast('Incorrect password', 'error');
+          return;
       }
       
-      // Login successful
-      alert('Login successful!');
+      // Successful login
+      const userData = {
+          id: user.id,
+          username: user.username,
+          email: user.email,
+          isAdmin: user.isAdmin || false 
+      };
       
-      // Store current user in localStorage (for session management)
-      localStorage.setItem('currentUser', JSON.stringify({
-        id: user.id,
-        username: user.username,
-        email: user.email
-      }));
+      localStorage.setItem('currentUser', JSON.stringify(userData));
       
-      // If "Remember me" is checked, store in localStorage
       if (rememberMe) {
-        localStorage.setItem('rememberedUser', username);
+          localStorage.setItem('rememberedUser', username);
       } else {
-        localStorage.removeItem('rememberedUser');
+          localStorage.removeItem('rememberedUser');
       }
       
-      // Redirect to home page or dashboard
-      window.location.href = '/index.html';
-    });
-    
-    // Check if there's a remembered user
-    const rememberedUser = localStorage.getItem('rememberedUser');
-    if (rememberedUser) {
+      showToast(`Welcome back, ${username}!`, 'success');
+            if (userData.username === 'admin') {
+          setTimeout(() => {
+              window.location.href = '/views /admin.html';
+          }, 1000);
+      } else {
+          setTimeout(() => {
+              window.location.href = '/views /index.html';
+          }, 1500);
+      }
+  });
+
+  // Check for remembered user
+  const rememberedUser = localStorage.getItem('rememberedUser');
+  if (rememberedUser) {
       document.getElementById('name').value = rememberedUser;
       document.getElementById('f-option').checked = true;
-    }
+  }
 });
+
+// Toast notification function
+function showToast(message, type = 'info') {
+  const toastContainer = document.querySelector('.toast-container');
+  if (!toastContainer) return;
+  
+  const toast = document.createElement('div');
+  toast.className = `toast align-items-center text-white bg-${type}`;
+  toast.setAttribute('role', 'alert');
+  toast.setAttribute('aria-live', 'assertive');
+  toast.setAttribute('aria-atomic', 'true');
+  toast.innerHTML = `
+      <div class="d-flex">
+          <div class="toast-body">${message}</div>
+          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+  `;
+  
+  toastContainer.appendChild(toast);
+  new bootstrap.Toast(toast).show();
+  
+  // Auto-remove after 5 seconds
+  setTimeout(() => {
+      toast.remove();
+  }, 5000);
+}

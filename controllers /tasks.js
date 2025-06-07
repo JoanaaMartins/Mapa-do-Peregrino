@@ -1,19 +1,15 @@
-
-import { updateDashboardStats } from './dashboard.js';
-
-// Get tasks from localStorage or initialize with empty array
 let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 
-// Helper function to save tasks to localStorage
 function saveTasksToStorage() {
     localStorage.setItem('tasks', JSON.stringify(tasks));
 }
 
 export function loadTasks() {
-    // Load tasks from localStorage first
     tasks = JSON.parse(localStorage.getItem('tasks')) || [];
     
     const container = document.getElementById('tasksContainer');
+    if (!container) return;
+    
     container.innerHTML = '';
     
     tasks.forEach(task => {
@@ -41,7 +37,7 @@ export function loadTasks() {
         container.appendChild(col);
     });
 
-    // Add event listeners to checkboxes
+    // Add event listeners
     document.querySelectorAll('.task-checkbox').forEach(checkbox => {
         checkbox.addEventListener('change', function() {
             const taskId = parseInt(this.id.replace('task', ''));
@@ -49,7 +45,6 @@ export function loadTasks() {
         });
     });
 
-    // Add event listeners to edit and delete buttons
     document.querySelectorAll('.edit-task').forEach(button => {
         button.addEventListener('click', function() {
             const taskId = parseInt(this.getAttribute('data-id'));
@@ -65,9 +60,13 @@ export function loadTasks() {
     }); 
 }
 
-export function saveTask() {
+export function saveTask(event) {
+    event.preventDefault();
+    
     const name = document.getElementById('taskName').value;
     const icon = document.getElementById('taskIcon').value;
+    
+    if (!name || !icon) return;
     
     const newTask = {
         id: tasks.length > 0 ? Math.max(...tasks.map(t => t.id)) + 1 : 1,
@@ -77,11 +76,10 @@ export function saveTask() {
     };
     
     tasks.push(newTask);
-    saveTasksToStorage(); // Save to localStorage
+    saveTasksToStorage();
     loadTasks();
-    updateDashboardStats();
+    updateDashboardStats(tasks);
     
-    // Close modal and reset form
     const modal = bootstrap.Modal.getInstance(document.getElementById('addTaskModal'));
     modal.hide();
     document.getElementById('taskForm').reset();
@@ -93,7 +91,7 @@ export function editTask(taskId) {
         const newName = prompt("Edit task name:", task.name);
         if (newName !== null) {
             task.name = newName;
-            saveTasksToStorage(); // Save to localStorage
+            saveTasksToStorage();
             loadTasks();
         }
     }
@@ -102,9 +100,9 @@ export function editTask(taskId) {
 export function deleteTask(taskId) {
     if (confirm('Are you sure you want to delete this task?')) {
         tasks = tasks.filter(task => task.id !== taskId);
-        saveTasksToStorage(); // Save to localStorage
+        saveTasksToStorage();
         loadTasks();
-        updateDashboardStats();
+        updateDashboardStats(tasks);
     }
 }
 
@@ -112,7 +110,11 @@ export function toggleTaskCompletion(taskId, completed) {
     const taskIndex = tasks.findIndex(t => t.id === taskId);
     if (taskIndex !== -1) {
         tasks[taskIndex].completed = completed;
-        saveTasksToStorage(); // Save to localStorage
-        updateDashboardStats();
+        saveTasksToStorage();
+        updateDashboardStats(tasks);
     }
+}
+
+export function getTasks() {
+    return tasks;
 }

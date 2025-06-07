@@ -36,4 +36,27 @@
 
 .toast-custom .close:hover {
     opacity: 1;
+} 
+
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1100;
+}
+
+.toast {
+    margin-bottom: 1rem;
+}
+
+.bg-error {
+    background-color: #dc3545 !important;
+}
+
+.bg-success {
+    background-color: #28a745 !important;
+}
+
+.bg-info {
+    background-color: #17a2b8 !important;
 }

@@ -1,46 +1,49 @@
-// auth.js - This should be included in all protected pages
-
+// auth.js 
 document.addEventListener('DOMContentLoaded', function() {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    const protectedPages = ['product_list.html', 'todo.html']; // Pages that require login
+    const protectedPages = ['product_list.html', 'todo.html', 'profile.html']; 
     
-    // Check if current page is protected
+    // Check for protected pages
     const isProtectedPage = protectedPages.some(page => 
         window.location.pathname.includes(page)
     );
     
-    // If user not logged in and trying to access protected page
     if (!currentUser && isProtectedPage) {
         alert('Please login to access this page');
         window.location.href = 'login.html';
         return;
     }
     
-    // If user is admin and trying to access admin page
+    // Admin checks
     if (currentUser?.isAdmin && window.location.pathname.includes('admin.html')) {
-        // Allow access
         return;
-    }
-    
-    // If non-admin trying to access admin page
+    }  
     if (!currentUser?.isAdmin && window.location.pathname.includes('admin.html')) {
         alert('You do not have permission to access this page');
         window.location.href = 'index.html';
         return;
     }
     
-    // Update UI based on login status
+    // Update UI based on login state
     if (currentUser) {
-        // You can show user-specific content or hide login button
-        const loginLink = document.querySelector('a[href="login.html"]');
-        if (loginLink) {
-            loginLink.textContent = 'Logout';
-            loginLink.href = '#';
-            loginLink.addEventListener('click', function(e) {
+        const profileNameElement = document.querySelector('.profile-name');
+        if (profileNameElement) {
+            profileNameElement.textContent = currentUser.username;
+        }
+        
+
+        const logoutBtn = document.getElementById('logoutBtn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', function(e) {
                 e.preventDefault();
-                localStorage.removeItem('currentUser');
-                window.location.href = 'index.html';
+                logout();
             });
         }
     }
 });
+
+// Logout function - moved from login.js
+function logout() {  
+    localStorage.removeItem('currentUser');
+    window.location.href = 'login.html';
+}
