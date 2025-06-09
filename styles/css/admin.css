@@ -1,0 +1,138 @@
+:root {
+    --dark-green: #38534C;
+    --light-green: #6B8981;
+    --white: #FFFFFF;
+}
+
+body {
+    background-color: var(--white);
+    color: #333;
+}
+
+.sidebar {
+    min-height: 100vh;
+    background-color: var(--dark-green);
+}
+
+.sidebar .nav-link {
+    color: rgba(255, 255, 255, 0.8);
+    padding: 0.75rem 1rem;
+    border-radius: 0.25rem;
+    margin-bottom: 0.25rem;
+}
+
+.sidebar .nav-link:hover {
+    color: var(--white);
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar .nav-link.active {
+    background-color: var(--light-green);
+    color: var(--white);
+    font-weight: 500;
+}
+
+.sidebar .nav-link i {
+    margin-right: 0.5rem;
+}
+
+.navbar-brand, .navbar-brand:hover {
+    color: var(--white);
+    font-weight: 600;
+}
+
+.big-checkbox {
+    width: 1.2em;
+    height: 1.2em;
+}
+
+.task-card {
+    transition: all 0.3s;
+    background-color: var(--white);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.task-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.completed-task {
+    opacity: 0.7;
+    background-color: #f8f9fa;
+}
+
+.btn-primary {
+    background-color: var(--light-green);
+    border-color: var(--light-green);
+}
+
+.btn-primary:hover {
+    background-color: #5a7870;
+    border-color: #5a7870;
+}
+
+.btn-outline-primary {
+    color: var(--light-green);
+    border-color: var(--light-green);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--light-green);
+    border-color: var(--light-green);
+}
+
+.card {
+    border: none;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.card.bg-primary {
+    background-color: var(--light-green) !important;
+}
+
+.border-bottom {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
+}
+
+.single_product_item {
+    background-color: var(--white);
+    transition: all 0.3s;
+}
+
+.single_product_item:hover {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+.admin-actions .btn {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+}
+
+.modal-header {
+    background-color: var(--dark-green);
+    color: var(--white);
+}
+
+.modal-header .btn-close {
+    filter: invert(1);
+}
+
+.table thead th {
+    background-color: var(--dark-green);
+    color: var(--white);
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(107, 137, 129, 0.1);
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--light-green);
+    box-shadow: 0 0 0 0.25rem rgba(107, 137, 129, 0.25);
+}
+
+.form-check-input:checked {
+    background-color: var(--light-green);
+    border-color: var(--light-green);
+}
