@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
       // Redirect to login page
       alert('Registration successful! Please login.'); 
       console.log('User registered successfully:', newUser.username);
-      window.location.href = 'views /login.html'; 
+      window.location.href = '../views/login.html'; 
     });
 }); 
 function isAdminInvite(email) {

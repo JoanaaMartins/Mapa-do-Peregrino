@@ -1,4 +1,4 @@
-import { posts } from '../Mapa-do-Peregrino/Models/data.js';
+import { posts } from '../Models/data.js';
 
 let currentFilters = {
     path: 'all',

@@ -47,11 +47,11 @@ document.addEventListener('DOMContentLoaded', function() {
       showToast(`Welcome back, ${username}!`, 'success');
             if (userData.username === 'admin') {
           setTimeout(() => {
-              window.location.href = '/views /admin.html';
+              window.location.href = '../views/admin.html';
           }, 1000);
       } else {
           setTimeout(() => {
-              window.location.href = '/views /index.html';
+              window.location.href = '../views/index.html';
           }, 1500);
       }
   });
