@@ -118,11 +118,38 @@ function loadPosts() {
 }
 
 function savePost() {
-    const title = document.getElementById('postTitle').value;
-    const image = document.getElementById('postImage').value;
-    const duration = document.getElementById('postDuration').value;
-    const distance = document.getElementById('postDistance').value;
-    const content = document.getElementById('postContent').value;
+    const titleField = document.getElementById('postTitle')
+    const imageField = document.getElementById('postImage')
+    const durationField = document.getElementById('postDuration')
+    const distanceField = document.getElementById('postDistance')
+    const contentField = document.getElementById('postContent')
+
+    if (!titleField) {
+        alert('Title field is missing');
+        return;
+    }
+    if (!imageField) {
+        alert('Image field is missing');
+        return;
+    }
+    if (!durationField) {
+        alert('Duration field is missing');
+        return;
+    }
+    if (!distanceField) {
+        alert('Distance field is missing');
+        return;
+    }
+    if (!contentField) {
+        alert('Description field is missing');
+        return;
+    }
+
+    const title = titleField.value;
+    const image = imageField.value;
+    const duration = durationField.value;
+    const distance = distanceField.value;
+    const content = contentField.value;
     
     const newPost = {
         id: posts.length > 0 ? Math.max(...posts.map(p => p.id)) + 1 : 1,
@@ -134,6 +161,7 @@ function savePost() {
     };
     
     posts.push(newPost);
+    localStorage.setItem('posts', JSON.stringify(posts));
     loadPosts();
     updateDashboardStats();
     

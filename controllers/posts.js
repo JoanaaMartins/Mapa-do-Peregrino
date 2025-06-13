@@ -108,16 +108,16 @@ export function loadPosts() {
 export function savePost() {
     // Basic info
     const title = document.getElementById('postTitle').value;
-    const slug = document.getElementById('postSlug').value;
+    //const slug = document.getElementById('postSlug').value;
     
     // Images
     const image = document.getElementById('postImage').value;
-    const image2 = document.getElementById('postImage2').value;
+    //const image2 = document.getElementById('postImage2').value;
     
     // Stats
     const duration = document.getElementById('postDuration').value;
     const distance = document.getElementById('postDistance').value;
-    const difficulty = document.getElementById('postDifficulty').value;
+    //const difficulty = document.getElementById('postDifficulty').value;
     
     // Description
     const content = document.getElementById('postContent').value;
@@ -141,12 +141,12 @@ export function savePost() {
     const newPost = {
         id: currentPosts.length > 0 ? Math.max(...currentPosts.map(p => p.id)) + 1 : 1,
         title,
-        slug,
+        //slug,
         image,
-        image2: image2 || null,
+        //image2: image2 || null,
         duration,
         distance,
-        difficulty,
+        //difficulty,
         content,
         itinerary: itineraryDays
     };

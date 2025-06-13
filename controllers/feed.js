@@ -1,4 +1,4 @@
-import { posts } from '../Models/data.js';
+//import { posts } from '../Models/data.js';
 
 let currentFilters = {
     path: 'all',
@@ -8,6 +8,10 @@ let currentFilters = {
 export function initUserFeed() {
     loadUserFeed();
     setupEventListeners();
+}
+
+function getPosts() {
+    return JSON.parse(localStorage.getItem('posts')) || [];
 }
 
 function loadUserFeed() {
@@ -24,11 +28,12 @@ function loadUserFeed() {
     filteredPosts.forEach(post => {
         const col = document.createElement('div');
         col.className = 'col-lg-6 col-sm-6 mb-4';
+        const heartClass = post.isLiked ? 'bi-heart-fill text-danger' : 'bi-heart';
         col.innerHTML = `
             <div class="single_product_item position-relative border rounded p-3 shadow-sm">
                 <div class="save-btn position-absolute top-0 end-0 p-2">
                     <button class="btn btn-light btn-sm rounded-circle like-post" data-id="${post.id}">
-                        <i class="bi bi-heart"></i>
+                        <i class="bi ${heartClass}"></i>
                     </button>
                 </div>
                 <img src="${post.image}" alt="${post.title}" class="img-fluid rounded mb-3">
@@ -50,6 +55,7 @@ function loadUserFeed() {
 }
 
 function filterPosts() {
+    const posts = getPosts();
     return posts.filter(post => {
         // Filter by path
         const pathMatch = currentFilters.path === 'all' || 
@@ -107,21 +113,33 @@ function setupEventListeners() {
 }
 
 function toggleLike(postId) {
+    const posts = getPosts();
     const post = posts.find(p => p.id === postId);
     if (post) {
         post.isLiked = !post.isLiked;
-        const likeButton = document.querySelector(`.like-post[data-id="${postId}"]`);
-        if (likeButton) {
-            const icon = likeButton.querySelector('i');
-            if (post.isLiked) {
-                icon.classList.remove('bi-heart');
-                icon.classList.add('bi-heart-fill', 'text-danger');
-            } else {
-                icon.classList.remove('bi-heart-fill', 'text-danger');
-                icon.classList.add('bi-heart');
-            }
-        }
+        localStorage.setItem('posts', JSON.stringify(posts));
+        loadUserFeed();
     }
 }
+
+// function toggleLike(postId) {
+//     const posts = getPosts();
+//     const post = posts.find(p => p.id === postId);
+//     if (post) {
+//         post.isLiked = !post.isLiked;
+//         localStorage.setItem('posts', JSON.stringify(posts));
+//         const likeButton = document.querySelector(`.like-post[data-id="${postId}"]`);
+//         if (likeButton) {
+//             const icon = likeButton.querySelector('i');
+//             if (post.isLiked) {
+//                 icon.classList.remove('bi-heart');
+//                 icon.classList.add('bi-heart-fill', 'text-danger');
+//             } else {
+//                 icon.classList.remove('bi-heart-fill', 'text-danger');
+//                 icon.classList.add('bi-heart');
+//             }
+//         }
+//     }
+// }
 
 document.addEventListener('DOMContentLoaded', initUserFeed);

@@ -1,4 +1,9 @@
 
+function isAdminInvite(email) {
+  // Check if this is a special admin invitation
+  return email.endsWith('@admin-invite.example'); // Example pattern
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     const registerForm = document.querySelector('.contact_form');
     
@@ -53,16 +58,5 @@ document.addEventListener('DOMContentLoaded', function() {
       window.location.href = '../views/login.html'; 
     });
 }); 
-function isAdminInvite(email) {
-  // Check if this is a special admin invitation
-  return email.endsWith('@admin-invite.example'); // Example pattern
-}
 
-// Then modify the user creation part:
-const newUser = {
-  id: Date.now(),
-  username,
-  email,
-  password,
-  isAdmin: isAdminInvite(email) // Only true for special invites
-};
+

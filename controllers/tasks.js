@@ -1,3 +1,5 @@
+import { updateDashboardStats } from './dashboard.js';
+
 let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 
 function saveTasksToStorage() {
