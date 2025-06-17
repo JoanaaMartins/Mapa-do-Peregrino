@@ -62,4 +62,17 @@ function updateProgressBar() {
     
     progressBar.style.width = `${percentage}%`;
     progressBar.textContent = `${percentage}%`;
+
+    const notified50 = localStorage.getItem('notified50') === 'true';
+    const notified100 = localStorage.getItem('notified100') === 'true';
+
+    if (percentage >= 50 && !notified50) {
+        showSuccessToast('Completou 50% da sua To-do List! Agora tem 5% desconto num albergue à sua escolha.');
+        localStorage.setItem('notified50', 'true');
+    }
+    if (percentage === 100 && !notified100) {
+        showSuccessToast('Completou 100% da sua To-do List! Agora tem 10% desconto num albergue à sua escolha. (Desconto não acumulável com outras promoções)');
+        localStorage.setItem('notified100', 'true');
+    }
+
 }

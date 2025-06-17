@@ -70,20 +70,14 @@
 <!-- Caminho de Santiago To Do List Section -->
 <section class="feature_part section_padding">
     <div class="container">
-        <div class="row justify-content-center mb-4">
-            <div class="col-lg-8 text-center">
-                <h3>To Do Before & During</h3>
-                <div class="progress mb-4" style="height: 25px;">
-                    <div id="progressBar" class="progress-bar bg-success" role="progressbar" style="width: 0%; color: #6B8981; ">
-                          0%
-                    </div>
-                </div>
+        <!-- Progress Bar -->
+        <div class="mb-4">
+            <div class="progress" style="height: 30px;">
+                <div id="progressBar" class="progress-bar bg-success" role="progressbar" style="width: 0%">0%</div>
             </div>
         </div>
-        <div class="row" id="tasksContainer">
-            <!-- Tasks will be loaded here dynamically -->
-        </div>
-        </div>
+        <!-- Tasks Container -->
+        <div class="row" id="tasksContainer"></div>
     </div>
 </section>
 

@@ -296,10 +296,13 @@ function saveTask() {
 }
 
 function toggleTaskCompletion(taskId, completed) {
+    let tasks = JSON.parse(localStorage.getItem('tasks')) || []; 
     const taskIndex = tasks.findIndex(t => t.id === taskId);
     if (taskIndex !== -1) {
         tasks[taskIndex].completed = completed;
-        updateDashboardStats();
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+        updateProgressBar();
+        loadTasks();
     }
 }
 

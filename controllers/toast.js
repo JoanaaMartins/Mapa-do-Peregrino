@@ -7,6 +7,7 @@
  * @param {number} [delay=5000] - Auto-hide delay in ms (0 to disable)
  */
 function showToast(message, title = 'Mapa do Peregrino', icon = 'bi-info-circle', type = 'info', delay = 5000) {
+    console.log(`Showing toast: ${title} - ${message}`);
     // Border colors based on type
     const borderColors = {
         info: '#6B8981',    // Your main color
@@ -60,6 +61,7 @@ function createToastContainer() {
 // Shortcut functions for common notification types
 function showSuccessToast(message, title = 'Success') {
     return showToast(message, title, 'bi-check-circle', 'success');
+    
 }
 
 function showErrorToast(message, title = 'Error') {
