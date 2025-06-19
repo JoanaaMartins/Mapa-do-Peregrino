@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     const protectedPages = ['product_list.html', 'todo.html', 'profile.html']; 
     
-    // Check for protected pages
     const isProtectedPage = protectedPages.some(page => 
         window.location.pathname.includes(page)
     );
@@ -13,8 +12,6 @@ document.addEventListener('DOMContentLoaded', function() {
         window.location.href = 'login.html';
         return;
     }
-    
-    // Admin checks
     if (currentUser?.isAdmin && window.location.pathname.includes('admin.html')) {
         return;
     }  
@@ -24,7 +21,6 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
     }
     
-    // Update UI based on login state
     if (currentUser) {
         const profileNameElement = document.querySelector('.profile-name');
         if (profileNameElement) {
@@ -42,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Logout function - moved from login.js
+
 function logout() {  
     localStorage.removeItem('currentUser');
     window.location.href = 'login.html';

@@ -1,62 +1,61 @@
-import { posts as initialPosts } from '../Models/data.js';
+import { initialPosts } from '../Models/data.js';
 import { updateDashboardStats } from './dashboard.js';
 
-// Initialize posts from localStorage or fall back to initialPosts
 let posts = JSON.parse(localStorage.getItem('posts')) || initialPosts;
 
-// Save posts to localStorage
 function savePostsToStorage() {
     localStorage.setItem('posts', JSON.stringify(posts));
 }
 
-// Function to handle itinerary day management
-function setupItineraryHandlers() {
-    // Add day button
+function setupItineraryHandlers(containerId = 'itineraryContainer') {
     document.getElementById('addDayBtn')?.addEventListener('click', function() {
-        const itineraryContainer = document.getElementById('itineraryContainer');
-        const dayCount = document.querySelectorAll('.itinerary-day').length;
-        const newDay = document.createElement('div');
-        newDay.className = 'itinerary-day mb-3 p-3 border rounded';
-        newDay.innerHTML = `
-            <div class="row">
-                <div class="col-md-2">
-                    <label>Day</label>
-                    <input type="number" class="form-control day-number" min="1" value="${dayCount + 1}">
-                </div>
-                <div class="col-md-4">
-                    <label>From</label>
-                    <input type="text" class="form-control from-location" placeholder="Starting point">
-                </div>
-                <div class="col-md-4">
-                    <label>To</label>
-                    <input type="text" class="form-control to-location" placeholder="Destination">
-                </div>
-                <div class="col-md-2">
-                    <label>Distance (km)</label>
-                    <input type="number" class="form-control distance" step="0.1" placeholder="km">
-                </div>
-            </div>
-            <div class="row mt-2">
-                <div class="col-md-12">
-                    <label>Suggested Albergue</label>
-                    <input type="text" class="form-control albergue" placeholder="Recommended accommodation">
-                </div>
-            </div>
-            <button type="button" class="btn btn-sm btn-danger mt-2 remove-day">Remove</button>
-        `;
-        itineraryContainer.appendChild(newDay);
-        
-        // Add event listener to the new remove button
-        newDay.querySelector('.remove-day').addEventListener('click', function() {
-            newDay.remove();
-        });
+        addNewDayItem(containerId);
     });
 
-    // Remove day buttons (for existing days when modal opens)
-    document.querySelectorAll('.remove-day').forEach(button => {
+    document.querySelectorAll(`#${containerId} .remove-day`).forEach(button => {
         button.addEventListener('click', function() {
             this.closest('.itinerary-day').remove();
         });
+    });
+}
+
+function addNewDayItem(containerId, dayData = {}) {
+    const itineraryContainer = document.getElementById(containerId);
+    const dayCount = document.querySelectorAll(`#${containerId} .itinerary-day`).length;
+    
+    const newDay = document.createElement('div');
+    newDay.className = 'itinerary-day mb-3 p-3 border rounded';
+    newDay.innerHTML = `
+        <div class="row">
+            <div class="col-md-2">
+                <label>Day</label>
+                <input type="number" class="form-control day-number" min="1" value="${dayData.day || dayCount + 1}">
+            </div>
+            <div class="col-md-4">
+                <label>From</label>
+                <input type="text" class="form-control from-location" placeholder="Starting point" value="${dayData.from || ''}">
+            </div>
+            <div class="col-md-4">
+                <label>To</label>
+                <input type="text" class="form-control to-location" placeholder="Destination" value="${dayData.to || ''}">
+            </div>
+            <div class="col-md-2">
+                <label>Distance (km)</label>
+                <input type="number" class="form-control distance" step="0.1" placeholder="km" value="${dayData.distance || ''}">
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-md-12">
+                <label>Suggested Albergue</label>
+                <input type="text" class="form-control albergue" placeholder="Recommended accommodation" value="${dayData.albergue || ''}">
+            </div>
+        </div>
+        <button type="button" class="btn btn-sm btn-danger mt-2 remove-day">Remove</button>
+    `;
+    
+    itineraryContainer.appendChild(newDay);
+    newDay.querySelector('.remove-day').addEventListener('click', function() {
+        newDay.remove();
     });
 }
 
@@ -64,7 +63,6 @@ export function loadPosts() {
     const postsGrid = document.getElementById('postsGrid');
     postsGrid.innerHTML = '';
     
-    // Get current posts (in case they were updated)
     const currentPosts = JSON.parse(localStorage.getItem('posts')) || posts;
     
     currentPosts.forEach(post => {
@@ -89,7 +87,6 @@ export function loadPosts() {
         postsGrid.appendChild(col);
     });
 
-    // Add event listeners to edit and delete buttons
     document.querySelectorAll('.edit-post').forEach(button => {
         button.addEventListener('click', function() {
             const postId = parseInt(this.getAttribute('data-id'));
@@ -106,25 +103,44 @@ export function loadPosts() {
 }
 
 export function savePost() {
-    // Basic info
     const title = document.getElementById('postTitle').value;
-    //const slug = document.getElementById('postSlug').value;
-    
-    // Images
     const image = document.getElementById('postImage').value;
-    //const image2 = document.getElementById('postImage2').value;
-    
-    // Stats
     const duration = document.getElementById('postDuration').value;
     const distance = document.getElementById('postDistance').value;
-    //const difficulty = document.getElementById('postDifficulty').value;
-    
-    // Description
     const content = document.getElementById('postContent').value;
     
-    // Itinerary
+    const itineraryDays = collectItineraryData('itineraryContainer');
+
+    const currentPosts = JSON.parse(localStorage.getItem('posts')) || posts;
+    
+    const newPost = {
+        id: currentPosts.length > 0 ? Math.max(...currentPosts.map(p => p.id)) + 1 : 1,
+        title,
+        image,
+        duration,
+        distance,
+        content,
+        itinerary: itineraryDays
+    };
+    
+    currentPosts.push(newPost);
+    localStorage.setItem('posts', JSON.stringify(currentPosts));
+    posts = currentPosts;
+    
+    loadPosts();
+    updateDashboardStats();
+    
+    const modal = bootstrap.Modal.getInstance(document.getElementById('createPostModal'));
+    modal.hide();
+    document.getElementById('postForm').reset();
+    
+    resetItineraryContainer('itineraryContainer');
+    setupItineraryHandlers('itineraryContainer');
+}
+
+function collectItineraryData(containerId) {
     const itineraryDays = [];
-    document.querySelectorAll('.itinerary-day').forEach(dayElement => {
+    document.querySelectorAll(`#${containerId} .itinerary-day`).forEach(dayElement => {
         const day = {
             day: dayElement.querySelector('.day-number').value,
             from: dayElement.querySelector('.from-location').value,
@@ -134,131 +150,87 @@ export function savePost() {
         };
         itineraryDays.push(day);
     });
-    
-    // Get current posts
-    const currentPosts = JSON.parse(localStorage.getItem('posts')) || posts;
-    
-    const newPost = {
-        id: currentPosts.length > 0 ? Math.max(...currentPosts.map(p => p.id)) + 1 : 1,
-        title,
-        //slug,
-        image,
-        //image2: image2 || null,
-        duration,
-        distance,
-        //difficulty,
-        content,
-        itinerary: itineraryDays
-    };
-    
-    currentPosts.push(newPost);
-    localStorage.setItem('posts', JSON.stringify(currentPosts));
-    posts = currentPosts; // Update the in-memory posts array
-    
-    loadPosts();
-    updateDashboardStats();
-    
-    // Close modal and reset form
-    const modal = bootstrap.Modal.getInstance(document.getElementById('createPostModal'));
-    modal.hide();
-    document.getElementById('postForm').reset();
-    
-    // Reset itinerary container to just one day
-    const itineraryContainer = document.getElementById('itineraryContainer');
-    itineraryContainer.innerHTML = `
-        <div class="itinerary-day mb-3 p-3 border rounded">
-            <div class="row">
-                <div class="col-md-2">
-                    <label>Day</label>
-                    <input type="number" class="form-control day-number" min="1" value="1">
-                </div>
-                <div class="col-md-4">
-                    <label>From</label>
-                    <input type="text" class="form-control from-location" placeholder="Starting point">
-                </div>
-                <div class="col-md-4">
-                    <label>To</label>
-                    <input type="text" class="form-control to-location" placeholder="Destination">
-                </div>
-                <div class="col-md-2">
-                    <label>Distance (km)</label>
-                    <input type="number" class="form-control distance" step="0.1" placeholder="km">
-                </div>
-            </div>
-            <div class="row mt-2">
-                <div class="col-md-12">
-                    <label>Suggested Albergue</label>
-                    <input type="text" class="form-control albergue" placeholder="Recommended accommodation">
-                </div>
-            </div>
-            <button type="button" class="btn btn-sm btn-danger mt-2 remove-day">Remove</button>
-        </div>
-    `;
-    
-    // Re-setup handlers for the new default day
-    setupItineraryHandlers();
+    return itineraryDays;
+}
+
+function resetItineraryContainer(containerId) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = '';
+    addNewDayItem(containerId);
 }
 
 export function updatePost() {
     const postId = parseInt(document.getElementById('editPostId').value);
     const title = document.getElementById('editPostTitle').value;
-    const slug = document.getElementById('editPostSlug')?.value || '';
     const image = document.getElementById('editPostImage').value;
-    const image2 = document.getElementById('editPostImage2')?.value || '';
     const duration = document.getElementById('editPostDuration').value;
     const distance = document.getElementById('editPostDistance').value;
-    const difficulty = document.getElementById('editPostDifficulty')?.value || 'Moderate';
     const content = document.getElementById('editPostContent').value;
     
-    // Get current posts
+    const itineraryDays = collectItineraryData('editItineraryContainer');
+
     const currentPosts = JSON.parse(localStorage.getItem('posts')) || posts;
     
     const postIndex = currentPosts.findIndex(p => p.id === postId);
     if (postIndex !== -1) {
         currentPosts[postIndex] = {
-            ...currentPosts[postIndex], // Keep existing properties
+            ...currentPosts[postIndex],
             id: postId,
             title,
-            slug,
             image,
-            image2,
             duration,
             distance,
-            difficulty,
-            content
+            content,
+            itinerary: itineraryDays
         };
         
         localStorage.setItem('posts', JSON.stringify(currentPosts));
-        posts = currentPosts; // Update the in-memory posts array
+        posts = currentPosts;
         loadPosts();
         
-        // Close modal
-        const modal = bootstrap.Modal.getInstance(document.getElementById('editPostModal'));
-        modal.hide();
+        const modalElement = document.getElementById('editPostModal');
+        if (modalElement) {
+            const modal = bootstrap.Modal.getInstance(modalElement);
+            if (modal) {
+                modal.hide();
+            } else {
+                new bootstrap.Modal(modalElement).hide();
+            }
+            
+            const backdrops = document.querySelectorAll('.modal-backdrop');
+            backdrops.forEach(backdrop => backdrop.remove());
+            document.body.classList.remove('modal-open');
+            document.getElementById('editPostForm').reset();
+        }
     }
 }
 
 export function editPost(postId) {
-    // Get current posts
     const currentPosts = JSON.parse(localStorage.getItem('posts')) || posts;
-    
     const post = currentPosts.find(p => p.id === postId);
+    
     if (post) {
         document.getElementById('editPostId').value = post.id;
         document.getElementById('editPostTitle').value = post.title;
-        if (document.getElementById('editPostSlug')) {
-            document.getElementById('editPostSlug').value = post.slug || '';
-        }
         document.getElementById('editPostImage').value = post.image;
-        if (document.getElementById('editPostImage2')) {
-            document.getElementById('editPostImage2').value = post.image2 || '';
-        }
         document.getElementById('editPostDuration').value = post.duration;
         document.getElementById('editPostDistance').value = post.distance;
-        if (document.getElementById('editPostDifficulty')) {
-            document.getElementById('editPostDifficulty').value = post.difficulty || 'Moderate';
-        }
         document.getElementById('editPostContent').value = post.content;
+        
+        const itineraryContainer = document.getElementById('editItineraryContainer');
+        itineraryContainer.innerHTML = '';
+        
+        if (post.itinerary && post.itinerary.length > 0) {
+            post.itinerary.forEach(day => {
+                addNewDayItem('editItineraryContainer', day);
+            });
+        } else {
+            addNewDayItem('editItineraryContainer');
+        }
+        
+        document.getElementById('editAddDayBtn')?.addEventListener('click', function() {
+            addNewDayItem('editItineraryContainer');
+        });
         
         const modal = new bootstrap.Modal(document.getElementById('editPostModal'));
         modal.show();
@@ -267,34 +239,48 @@ export function editPost(postId) {
 
 export function deletePost(postId) {
     if (confirm('Are you sure you want to delete this post?')) {
-        // Get current posts
         const currentPosts = JSON.parse(localStorage.getItem('posts')) || posts;
-        
         const updatedPosts = currentPosts.filter(post => post.id !== postId);
+        
         localStorage.setItem('posts', JSON.stringify(updatedPosts));
-        posts = updatedPosts; // Update the in-memory posts array
+        posts = updatedPosts;
         
         loadPosts();
         updateDashboardStats();
     }
 }
 
-// Initialize localStorage with initialPosts if empty
 export function initializePosts() {
     if (!localStorage.getItem('posts')) {
         localStorage.setItem('posts', JSON.stringify(initialPosts));
     }
+    
     loadPosts();
     
-    // Setup itinerary handlers when modal is shown
     const createPostModal = document.getElementById('createPostModal');
     if (createPostModal) {
-        createPostModal.addEventListener('shown.bs.modal', setupItineraryHandlers);
+        createPostModal.addEventListener('shown.bs.modal', function() {
+            resetItineraryContainer('itineraryContainer');
+            setupItineraryHandlers('itineraryContainer');
+        });
     }
     
-    // Also set up handlers immediately in case modal is already open
-    setupItineraryHandlers();
+    document.getElementById('addDayBtn')?.addEventListener('click', function() {
+        addNewDayItem('itineraryContainer');
+    });
+    
+    document.getElementById('editAddDayBtn')?.addEventListener('click', function() {
+        addNewDayItem('editItineraryContainer');
+    });
+    
+    setupItineraryHandlers('itineraryContainer');
+}
+const editPostModal = document.getElementById('editPostModal');
+if (editPostModal) {
+    editPostModal.addEventListener('hidden.bs.modal', function() {
+        document.getElementById('editItineraryContainer').innerHTML = '';
+        document.getElementById('editPostForm').reset();
+    });
 }
 
-// Call initializePosts when the module is loaded
 initializePosts();

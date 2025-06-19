@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', function() {
       const password = document.getElementById('password').value;
       const rememberMe = document.getElementById('f-option').checked;
       
-      // Validation
       if (!username || !password) {
           showToast('Please fill in all fields', 'error');
           return;
@@ -17,7 +16,6 @@ document.addEventListener('DOMContentLoaded', function() {
       const users = JSON.parse(localStorage.getItem('users')) || [];
       const user = users.find(u => u.username === username);
       
-      // Authentication checks
       if (!user) {
           showToast('Username not found', 'error');
           return;
@@ -27,8 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
           showToast('Incorrect password', 'error');
           return;
       }
-      
-      // Successful login
+
       const userData = {
           id: user.id,
           username: user.username,
@@ -56,7 +53,6 @@ document.addEventListener('DOMContentLoaded', function() {
       }
   });
 
-  // Check for remembered user
   const rememberedUser = localStorage.getItem('rememberedUser');
   if (rememberedUser) {
       document.getElementById('name').value = rememberedUser;
@@ -64,7 +60,6 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
-// Toast notification function
 function showToast(message, type = 'info') {
   const toastContainer = document.querySelector('.toast-container');
   if (!toastContainer) return;
@@ -84,7 +79,7 @@ function showToast(message, type = 'info') {
   toastContainer.appendChild(toast);
   new bootstrap.Toast(toast).show();
   
-  // Auto-remove after 5 seconds
+
   setTimeout(() => {
       toast.remove();
   }, 5000);

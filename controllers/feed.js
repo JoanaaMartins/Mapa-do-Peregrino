@@ -45,7 +45,6 @@ function loadUserFeed() {
         feedContainer.appendChild(col);
     });
 
-    // Add event listeners to like buttons
     document.querySelectorAll('.like-post').forEach(button => {
         button.addEventListener('click', function() {
             const postId = parseInt(this.getAttribute('data-id'));
@@ -57,11 +56,11 @@ function loadUserFeed() {
 function filterPosts() {
     const posts = getPosts();
     return posts.filter(post => {
-        // Filter by path
+        
         const pathMatch = currentFilters.path === 'all' || 
                          post.path === currentFilters.path;
         
-        // Filter by duration
+        
         let durationMatch = false;
         if (currentFilters.duration === 'all') {
             durationMatch = true;
@@ -81,13 +80,11 @@ function filterPosts() {
 }
 
 function setupEventListeners() {
-    // Path filters
     document.querySelectorAll('.filter-path').forEach(filter => {
         filter.addEventListener('click', function(e) {
             e.preventDefault();
             currentFilters.path = this.getAttribute('data-path');
-            
-            // Update dropdown button text
+
             const pathDropdownBtn = document.querySelector('#pathDropdown');
             const selectedText = this.textContent;
             pathDropdownBtn.innerHTML = `${selectedText} `;
@@ -96,13 +93,11 @@ function setupEventListeners() {
         });
     });
 
-    // Duration filters
+
     document.querySelectorAll('.filter-duration').forEach(filter => {
         filter.addEventListener('click', function(e) {
             e.preventDefault();
             currentFilters.duration = this.getAttribute('data-duration');
-            
-            // Update dropdown button text
             const durationDropdownBtn = document.querySelector('#durationDropdown');
             const selectedText = this.textContent;
             durationDropdownBtn.innerHTML = `${selectedText} `;
@@ -121,25 +116,5 @@ function toggleLike(postId) {
         loadUserFeed();
     }
 }
-
-// function toggleLike(postId) {
-//     const posts = getPosts();
-//     const post = posts.find(p => p.id === postId);
-//     if (post) {
-//         post.isLiked = !post.isLiked;
-//         localStorage.setItem('posts', JSON.stringify(posts));
-//         const likeButton = document.querySelector(`.like-post[data-id="${postId}"]`);
-//         if (likeButton) {
-//             const icon = likeButton.querySelector('i');
-//             if (post.isLiked) {
-//                 icon.classList.remove('bi-heart');
-//                 icon.classList.add('bi-heart-fill', 'text-danger');
-//             } else {
-//                 icon.classList.remove('bi-heart-fill', 'text-danger');
-//                 icon.classList.add('bi-heart');
-//             }
-//         }
-//     }
-// }
 
 document.addEventListener('DOMContentLoaded', initUserFeed);

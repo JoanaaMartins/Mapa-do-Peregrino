@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const postId = parseInt(window.location.search.split('id=')[1]?.split('&')[0]);
     if (!postId) return;
 
-    // Get post from localStorage
     const posts = JSON.parse(localStorage.getItem('posts')) || [];
     const post = posts.find(p => p.id === postId);
     if (!post) return;

@@ -38,11 +38,9 @@ function showToast(message, title = 'Mapa do Peregrino', icon = 'bi-info-circle'
     const container = document.querySelector('.toast-container') || createToastContainer();
     container.appendChild(toast);
     
-    // Initialize and show toast
     const bsToast = new bootstrap.Toast(toast, { delay: delay });
     bsToast.show();
     
-    // Remove toast after it's hidden
     toast.addEventListener('hidden.bs.toast', () => {
         toast.remove();
     });
@@ -58,7 +56,6 @@ function createToastContainer() {
     return container;
 }
 
-// Shortcut functions for common notification types
 function showSuccessToast(message, title = 'Success') {
     return showToast(message, title, 'bi-check-circle', 'success');
     

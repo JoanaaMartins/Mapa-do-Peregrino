@@ -32,7 +32,6 @@ function loadTasks() {
         });
     });
 
-    // Update progress bar
     updateProgressBar();
 }
 
@@ -53,7 +52,8 @@ function updateProgressBar() {
     
     if (tasks.length === 0) {
         progressBar.style.width = '0%';
-        progressBar.textContent = '0%';
+        progressBar.textContent = '0%'; 
+        progressBar.style.backgroundColor = '#6B8981';
         return;
     }
 
@@ -61,7 +61,8 @@ function updateProgressBar() {
     const percentage = Math.round((completedCount / tasks.length) * 100);
     
     progressBar.style.width = `${percentage}%`;
-    progressBar.textContent = `${percentage}%`;
+    progressBar.textContent = `${percentage}%`; 
+    progressBar.style.backgroundColor = '#6B8981';
 
     const notified50 = localStorage.getItem('notified50') === 'true';
     const notified100 = localStorage.getItem('notified100') === 'true';

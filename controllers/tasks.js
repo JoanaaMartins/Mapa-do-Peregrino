@@ -39,7 +39,6 @@ export function loadTasks() {
         container.appendChild(col);
     });
 
-    // Add event listeners
     document.querySelectorAll('.task-checkbox').forEach(checkbox => {
         checkbox.addEventListener('change', function() {
             const taskId = parseInt(this.id.replace('task', ''));

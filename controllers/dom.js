@@ -1,27 +1,24 @@
-import { loadUsers } from './users.js';
+import { loadUsers, getUsers } from './users.js';  
 import { loadPosts, savePost, updatePost, editPost, deletePost, initializePosts } from './posts.js';
 import { loadTasks, saveTask, getTasks } from './tasks.js';
 import { updateDashboardStats, setUsersData, setPostsData } from './dashboard.js';
 
 document.addEventListener('DOMContentLoaded', function () {
-  // Initialize data
-  initializePosts();
-  loadUsers();
-  loadTasks();
   
-  // Set data for dashboard
-  setUsersData(JSON.parse(localStorage.getItem('users')) || []);
+  initializePosts();
+  loadTasks();
+  loadUsers();  
+  setUsersData(getUsers());  
   setPostsData(JSON.parse(localStorage.getItem('posts')) || []);
   updateDashboardStats(getTasks());
 
-  // Event listeners
+
   document.getElementById('savePostBtn')?.addEventListener('click', savePost);
   document.getElementById('saveTaskBtn')?.addEventListener('click', function(e) {
     saveTask(e);
   });
   document.getElementById('updatePostBtn')?.addEventListener('click', updatePost);
 
-  // Delegated event listeners
   document.addEventListener('click', function(event) {
     if (event.target.closest('.edit-post')) {
       const button = event.target.closest('.edit-post');
@@ -35,7 +32,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
-  // Itinerary handlers
   const createPostModal = document.getElementById('createPostModal');
   if (createPostModal) {
     createPostModal.addEventListener('shown.bs.modal', function() {
